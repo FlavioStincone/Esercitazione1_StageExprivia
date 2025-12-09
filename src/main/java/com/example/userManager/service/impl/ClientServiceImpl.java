@@ -1,0 +1,90 @@
+package com.example.userManager.service.impl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.userManager.mapper.ClientMapper;
+import com.example.userManager.model.dto.ClientDTO;
+import com.example.userManager.model.entity.Client;
+import com.example.userManager.model.entity.RoleEnum;
+import com.example.userManager.repository.ClientRepository;
+import com.example.userManager.service.IClient;
+
+@Service
+public class  ClientServiceImpl implements IClient {
+    
+    @Autowired
+    private ClientRepository repository;
+
+    @Autowired
+    private ClientMapper mapper;
+
+    //Uso Dei Logger
+    private static final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
+
+    @Override
+    public List<ClientDTO> getClients() {
+        // Restituisce tutte gli utenti presenti
+        List<ClientDTO> ClientsDTO = mapper.toListDTO(repository.findAll());
+        
+        return ClientsDTO;
+        //return repository.findAll().stream().map(mapper::toDTO).toList(); //(senza utilizzare il metodo toListDTO nel mapper)
+    }
+
+    @Override
+    public ClientDTO getClient(Long id) {
+        // Restituisce un utente specifica in base all'id
+        logger.info("Fetching user with id: {"+ id +"}");
+        return repository.findById(id).map(mapper::toDTO).orElse(null);
+    }
+
+    @Override
+    public ClientDTO createClient(ClientDTO clientDTO) {
+        // Crea l'utente
+        logger.info("Creating new user: {"+ clientDTO.name() +"}");
+        Client client = mapper.toEntity(clientDTO);
+        client.setRole(RoleEnum.CLIENT.getValue());
+        repository.save(client);
+
+        return mapper.toDTO(client);
+    }
+
+    @Override
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
+        Optional<Client> existingClient = repository.findById(id);
+
+        if (existingClient.isPresent()) {
+            Client clientToUpdate = existingClient.get();
+
+            clientToUpdate.setName(clientDTO.name());
+            clientToUpdate.setEmail(clientDTO.email());
+
+            Client updatedClient = repository.save(clientToUpdate);
+
+            return mapper.toDTO(updatedClient);
+        }
+
+        // Meglio lanciare un'eccezione o restituire Optional
+        return null;
+    }
+
+    @Override
+    public boolean deleteClient(Long id) {
+        // Elimina l'utente 
+        if (repository.existsById(id)) {
+            logger.info("Deleting user with id: {"+ id +"}");
+            repository.deleteById(id);
+            return true;
+        }
+        return false; 
+    }
+
+
+
+}

@@ -13,50 +13,50 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.userManager.model.dto.UserDTO;
-import com.example.userManager.service.impl.UserServiceImpl;
+import com.example.userManager.model.dto.ClientDTO;
+import com.example.userManager.service.impl.ClientServiceImpl;
 
 @RestController
-public class UserController {
+public class ClientController {
 
     @Autowired
-    private UserServiceImpl service;
+    private ClientServiceImpl service;
 
-    //GET /users
-    @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getUsers(){
+    //GET /clients
+    @GetMapping("/clients")
+    public ResponseEntity<List<ClientDTO>> getUsers(){
         
-        List<UserDTO> users = service.getUsers();
+        List<ClientDTO> clients = service.getClients();
         
-        if (users != null && !users.isEmpty()) {
-            return ResponseEntity.ok().body(users);
+        if (clients != null && !clients.isEmpty()) {
+            return ResponseEntity.ok().body(clients);
         } else {
             return ResponseEntity.noContent().build();
         }
 
     }
 
-    //GET /user/{id}
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
+    //GET /client/{id}
+    @GetMapping("/client/{id}")
+    public ResponseEntity<ClientDTO> getClient(@PathVariable Long id) {
         
-        UserDTO user = service.getUser(id);
+        ClientDTO client = service.getClient(id);
         
-        if (user != null) {
-            return ResponseEntity.ok().body(user);
+        if (client != null) {
+            return ResponseEntity.ok().body(client);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    //POST /user
-    @PostMapping("/user")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        if (userDTO == null || userDTO.getName() == null || userDTO.getEmail() == null) {
+    //POST /client
+    @PostMapping("/client")
+    public ResponseEntity<ClientDTO> createUser(@RequestBody ClientDTO clientDTO) {
+        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        UserDTO created = service.createUser(userDTO);
+        ClientDTO created = service.createClient(clientDTO);
         
         if ( created != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -65,14 +65,14 @@ public class UserController {
         }
     }
 
-    //PUT /user/{id}
-    @PutMapping("/user/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
-        if (userDTO == null || userDTO.getName() == null || userDTO.getEmail() == null) {
+    //PUT /client/{id}
+    @PutMapping("/client/{id}")
+    public ResponseEntity<ClientDTO> updateUser(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
+        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        UserDTO updateDTO = service.updateUser(id, userDTO);
+        ClientDTO updateDTO = service.updateClient(id, clientDTO);
         
         if (updateDTO != null) {
             return ResponseEntity.ok().body(updateDTO);
@@ -81,11 +81,11 @@ public class UserController {
         }
     }
 
-    //DELETE /user/{id}
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable int id) {
+    //DELETE /client/{id}
+    @DeleteMapping("/client/{id}")
+    public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
         
-        boolean deleted = service.deleteUser(id);
+        boolean deleted = service.deleteClient(id);
         
         if (deleted) {
             return ResponseEntity.ok().body(true);

@@ -1,0 +1,35 @@
+
+GET http://127.0.0.1:8080/clients
+
+###
+GET http://127.0.0.1:8080/client/1
+
+###
+POST http://127.0.0.1:8080/client
+Content-Type: application/json 
+
+{
+    "name": "Alberto",
+    "email": "alberto@expriviaclient.it"
+}
+
+###
+POST http://127.0.0.1:8080/client
+Content-Type: application/json 
+
+{
+    "name": "Niccolo",
+    "email": "NiccoloCaccamo901@expriviaclient.it"
+}
+
+###
+PUT http://127.0.0.1:8080/client/1
+Content-Type: application/json 
+
+{
+    "name": "Marco",
+    "email": "marco@expriviaclient.it"
+}
+
+###
+DELETE http://127.0.0.1:8080/client/2
