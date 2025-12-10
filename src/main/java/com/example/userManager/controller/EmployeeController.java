@@ -24,7 +24,7 @@ public class EmployeeController {
 
     //GET /employees
     @GetMapping("/employees")
-    public ResponseEntity<List<EmployeeDTO>> getUsers(){
+    public ResponseEntity<List<EmployeeDTO>> getEmployees(){
         
         List<EmployeeDTO> employees = service.getEmployees();
         
@@ -52,7 +52,7 @@ public class EmployeeController {
     //POST /employee
     @PostMapping("/employee")
     public ResponseEntity<EmployeeDTO> createUser(@RequestBody EmployeeDTO employeeDTO) {
-        if (employeeDTO == null || employeeDTO.name() == null || employeeDTO.email() == null) {
+        if (employeeDTO == null || employeeDTO.name() == null || employeeDTO.email() == null || employeeDTO.pwd() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -68,7 +68,7 @@ public class EmployeeController {
     //PUT /employee/{id}
     @PutMapping("/employee/{id}")
     public ResponseEntity<EmployeeDTO> updateUser(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        if (employeeDTO == null || employeeDTO.name() == null || employeeDTO.email() == null) {
+        if (employeeDTO == null || employeeDTO.name() == null || employeeDTO.email() == null || employeeDTO.pwd() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -92,6 +92,24 @@ public class EmployeeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //POST /client/
+    @PostMapping("/employee/login")
+    public ResponseEntity<String> login(@RequestBody EmployeeDTO employeeDTO)
+    {
+        if (employeeDTO == null || employeeDTO.name() == null || employeeDTO.pwd() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean response = service.login(employeeDTO.name(), employeeDTO.pwd());
+
+        if(response == false){
+            return ResponseEntity.status(401).body("Dipendente Non Trovato");
+        }
+
+        return ResponseEntity.ok("Dipendente Trovato");
+
     }
     
 }

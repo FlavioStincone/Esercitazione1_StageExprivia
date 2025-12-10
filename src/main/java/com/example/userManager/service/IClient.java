@@ -15,5 +15,7 @@ public interface IClient {
     ClientDTO updateClient(Long id, ClientDTO clientDTO);
 
     boolean deleteClient(Long id);
+
+    boolean login(String name, String pwd);
     
 }

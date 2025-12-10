@@ -64,6 +64,7 @@ public class  ClientServiceImpl implements IClient {
 
             clientToUpdate.setName(clientDTO.name());
             clientToUpdate.setEmail(clientDTO.email());
+            clientToUpdate.setPwd(clientDTO.pwd());
 
             Client updatedClient = repository.save(clientToUpdate);
 
@@ -85,6 +86,23 @@ public class  ClientServiceImpl implements IClient {
         return false; 
     }
 
+    @Override
+    public boolean login(String name, String pwd){
+
+        List<Client> clientsByName = repository.findByName(name);
+
+        if (!clientsByName.isEmpty()) {
+
+            Client client = clientsByName.get(0);
+
+            if (client.getPwd().equals(pwd)){
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 
 
 }

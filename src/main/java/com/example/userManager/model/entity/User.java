@@ -14,16 +14,18 @@ public abstract class User
   private String name;
   private String email;
   private String role;
+  private String pwd;
 
   public User()
   {
 
   }
 
-  public User(String name, String email, String role)
+  public User(String name, String email, String pwd, String role)
   {
     this.name = name;
     this.email = email;
+    this.pwd = pwd;
   }
 
 }

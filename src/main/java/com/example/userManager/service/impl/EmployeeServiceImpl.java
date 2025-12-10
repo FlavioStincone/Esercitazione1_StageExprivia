@@ -87,6 +87,23 @@ public class  EmployeeServiceImpl implements IEmployee {
         return false; 
     }
 
+     @Override
+    public boolean login(String name, String pwd){
+
+        List<Employee> employeesByName = repository.findByName(name);
+
+        if (!employeesByName.isEmpty()) {
+
+            Employee employee = employeesByName.get(0);
+            if (employee.getPwd().equals(pwd)){
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
 
 
 }

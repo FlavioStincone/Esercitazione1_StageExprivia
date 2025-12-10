@@ -15,5 +15,7 @@ public interface IEmployee {
     EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO);
 
     boolean deleteEmployee(Long id);
+
+    boolean login(String name, String pwd);
     
 }

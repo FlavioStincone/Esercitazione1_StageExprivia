@@ -21,9 +21,9 @@ public class Employee extends User {
         super();
     }
 
-    public Employee(String name, String email)
+    public Employee(String name, String email, String pwd)
     {
-        super( name, email, null);
+        super( name, email, pwd, null);
     }
     
 }

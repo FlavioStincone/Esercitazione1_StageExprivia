@@ -25,6 +25,7 @@
 
     <dependencies>
 
+
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,12 +42,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- SQLite -->
@@ -113,5 +108,27 @@
 
         </plugins>
     </build>
+
+    <profiles>
+    <!-- Creazione del Profilo "test" per l'attivazione di dipendenze specifiche durante l'utilizzo di esso -->
+        <profile>
+            <id>test</id>
+            <properties>
+            <db.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</db.url>
+            <spring.profiles.active>test</spring.profiles.active>
+            </properties>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+            </dependencies>
+
+        </profile>
+    </profiles>
 
 </project>

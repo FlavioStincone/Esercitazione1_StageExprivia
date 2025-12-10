@@ -52,7 +52,7 @@ public class ClientController {
     //POST /client
     @PostMapping("/client")
     public ResponseEntity<ClientDTO> createUser(@RequestBody ClientDTO clientDTO) {
-        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null) {
+        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null || clientDTO.pwd() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -68,7 +68,7 @@ public class ClientController {
     //PUT /client/{id}
     @PutMapping("/client/{id}")
     public ResponseEntity<ClientDTO> updateUser(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
-        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null) {
+        if (clientDTO == null || clientDTO.name() == null || clientDTO.email() == null || clientDTO.pwd() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -93,5 +93,24 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //POST /client/
+    @PostMapping("/client/login")
+    public ResponseEntity<String> login(@RequestBody ClientDTO clientDTO)
+    {
+        if (clientDTO == null || clientDTO.name() == null || clientDTO.pwd() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean response = service.login(clientDTO.name(), clientDTO.pwd());
+
+        if(response == false){
+            return ResponseEntity.status(401).body("Cliente Non Trovato");
+        }
+
+        return ResponseEntity.ok("Cliente Trovato");
+
+    }
+
     
 }
