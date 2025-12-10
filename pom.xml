@@ -82,7 +82,7 @@
     <build>
         <plugins>
 
-            <!-- ✳️ COMPILER con annotation processor -->
+            <!--  COMPILER con annotation processor -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
