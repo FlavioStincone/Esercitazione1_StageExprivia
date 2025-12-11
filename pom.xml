@@ -72,6 +72,25 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2 con scope test-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -114,20 +133,9 @@
         <profile>
             <id>test</id>
             <properties>
-            <db.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</db.url>
-            <spring.profiles.active>test</spring.profiles.active>
+                <db.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</db.url>
+                <spring.profiles.active>test</spring.profiles.active>
             </properties>
-
-            <dependencies>
-
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-test</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
-            </dependencies>
-
         </profile>
     </profiles>
 
