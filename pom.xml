@@ -44,6 +44,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- SQLite -->
         <dependency>
             <groupId>org.xerial</groupId>
@@ -72,23 +77,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- H2 con scope test-->
+        <!-- H2 con scope test va rimosso vista l'implementazione dei profili-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Test con scope test va rimosso vista l'implementazione dei profili-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
     </dependencies>
@@ -133,8 +131,31 @@
         <profile>
             <id>test</id>
             <properties>
-                <db.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</db.url>
                 <spring.profiles.active>test</spring.profiles.active>
+            </properties>
+
+            <dependencies>
+                <!-- H2 con scope test-->
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <!-- JUnit Test con scope test-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+                
+        </profile>
+
+        <profile>
+            <id>default</id>
+            <properties>
+            <spring.profiles.active>default</spring.profiles.active>
             </properties>
         </profile>
     </profiles>
