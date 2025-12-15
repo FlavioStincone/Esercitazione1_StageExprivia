@@ -104,5 +104,11 @@ public class  ClientServiceImpl implements IClient {
 
     }
 
+    // Usare il costruttore per l'iniezione delle dipendenze per migliorare la testabilità e la chiarezza del codice.
+    public ClientServiceImpl(ClientRepository repository, ClientMapper mapper)
+    {
+        this.repository = repository;
+        this.mapper = mapper;
+    };
 
 }
