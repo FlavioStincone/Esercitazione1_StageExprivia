@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -128,23 +127,39 @@ class ClientServiceTest {
         }
     }
 
-   //utilizzo del verify() per verificare che un metodo sia stato chiamato
-   @Test
-    void should_CallRepositorySaveMethod(){
-    
-    //given
-    ClientDTO clientDTO = new ClientDTO("Test", "Test@gmail.com", "1234", null);
-    Client client = new Client("Test", "Test@gmail.com", "1234");
+    @Nested
+    class createClientMethod{
+        //utilizzo del verify() per verificare che un metodo sia stato chiamato
+        @Test
+        void should_CallRepositorySaveMethod(){
+        
+            //given
+            ClientDTO clientDTO = new ClientDTO("Test", "Test@gmail.com", "1234", null);
+            Client client = new Client("Test", "Test@gmail.com", "1234");
 
-    given(mockMapper.toEntity(clientDTO)).willReturn(client);
+            given(mockMapper.toEntity(clientDTO)).willReturn(client);
 
-    //when
-    clientServiceImpl.createClient(clientDTO);
+            //when
+            clientServiceImpl.createClient(clientDTO);
 
-    //then
-    // verify(mockRepository).save(client); 
-    then(mockRepository).should().save(client); // fa la stessa cosa di verify() ma si utilizza uan nomenclatura corretta
+            //then
+            // verify(mockRepository).save(client); 
+            then(mockRepository).should().save(client); // fa la stessa cosa di verify() ma si utilizza uan nomenclatura corretta
+        }
+   
+        //Utilizzo di any()
+        @Test
+        void should_SaveClient_UsingAny() {
+            // given
+            ClientDTO clientDTO = new ClientDTO("Test", "Test@gmail.com", "1234", null);
 
+            given(mockMapper.toEntity(any(ClientDTO.class))).willReturn(new Client("Test", "Test@gmail.com", "1234"));
+
+            // when
+            clientServiceImpl.createClient(clientDTO);
+
+            // then
+            then(mockRepository).should().save(any(Client.class));
+        }
     }
-
 }
