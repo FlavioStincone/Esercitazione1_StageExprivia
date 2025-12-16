@@ -7,12 +7,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.mockito.BDDMockito.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.userManager.mapper.ClientMapper;
 import com.example.userManager.model.dto.ClientDTO;
@@ -20,9 +23,10 @@ import com.example.userManager.model.entity.Client;
 import com.example.userManager.repository.ClientRepository;
 import com.example.userManager.service.impl.ClientServiceImpl;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ClientServiceTest { 
     
+    @InjectMocks
     private ClientServiceImpl clientServiceImpl;
 
     @Mock
@@ -31,14 +35,14 @@ class ClientServiceTest {
     @Mock
     private ClientMapper mockMapper;
 
-	@BeforeEach
-    void setup(){
+	// @BeforeEach //il setup() può essere sostituito da @ExtendWith(MockitoExtension.class) e @Mock
+    // void setup(){
 
-        this.mockRepository = mock(ClientRepository.class);
-        this.mockMapper = mock(ClientMapper.class);
+    //     this.mockRepository = mock(ClientRepository.class);
+    //     this.mockMapper = mock(ClientMapper.class);
 
-        this.clientServiceImpl = new ClientServiceImpl(mockRepository, mockMapper);
-    }
+    //     this.clientServiceImpl = new ClientServiceImpl(mockRepository, mockMapper); 
+    // }
 
     @Nested
     class getClientsMethod{
@@ -81,13 +85,13 @@ class ClientServiceTest {
         @Test
         void should_ReturnCorrectClient() {
             
-
             //given
             Client clientEntity = new Client("Test", "Test@gmail.com", "1234");
             ClientDTO expected = new ClientDTO("Test", "Test@gmail.com", "1234", null);
 
-            when(mockRepository.findById(1L)).thenReturn(Optional.of(clientEntity));
-            when(mockMapper.toDTO(clientEntity)).thenReturn(expected);
+            //when(mockRepository.findById(1L)).thenReturn(Optional.of(clientEntity));
+            given(mockRepository.findById(1L)).willReturn(Optional.of(clientEntity));// fa la stessa cosa di when() ma si utilizza uan nomenclatura corretta 
+            given(mockMapper.toDTO(clientEntity)).willReturn(expected);
 
             //when
             ClientDTO actual = clientServiceImpl.getClient(1L);
@@ -122,6 +126,24 @@ class ClientServiceTest {
             );
 
         }
+    }
+
+   //utilizzo del verify() per verificare che un metodo sia stato chiamato
+   @Test
+    void should_CallRepositorySaveMethod(){
+    
+    //given
+    ClientDTO clientDTO = new ClientDTO("Test", "Test@gmail.com", "1234", null);
+    Client client = new Client("Test", "Test@gmail.com", "1234");
+
+    given(mockMapper.toEntity(clientDTO)).willReturn(client);
+
+    //when
+    clientServiceImpl.createClient(clientDTO);
+
+    //then
+    // verify(mockRepository).save(client); 
+    then(mockRepository).should().save(client); // fa la stessa cosa di verify() ma si utilizza uan nomenclatura corretta
 
     }
 
