@@ -134,6 +134,7 @@ class ClientServiceTest {
             ClientDTO clientDTO = new ClientDTO("Test", "Test@gmail.com", "1234", null);
             Client client = new Client("Test", "Test@gmail.com", "1234");
 
+            //when(mockMapper.toEntity(clientDTO)).thenReturn(client);
             given(mockMapper.toEntity(clientDTO)).willReturn(client);
 
             //when
