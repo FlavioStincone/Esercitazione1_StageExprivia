@@ -25,7 +25,6 @@
 
     <dependencies>
 
-
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,12 +77,14 @@
         </dependency>
 
         <!-- H2 con scope test va rimosso vista l'implementazione dei profili-->
+        <!-- H2 (usato solo nel profilo test) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
 
         <!-- JUnit Test con scope test va rimosso vista l'implementazione dei profili-->
+        <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -93,7 +94,6 @@
 
     <build>
         <plugins>
-
             <!--  COMPILER con annotation processor -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +102,9 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -122,7 +125,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 
@@ -133,29 +135,14 @@
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
             </properties>
-
-            <dependencies>
                 <!-- H2 con scope test-->
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
                 <!-- JUnit Test con scope test-->
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-test</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-                
         </profile>
 
         <profile>
             <id>default</id>
             <properties>
-            <spring.profiles.active>default</spring.profiles.active>
+                <spring.profiles.active>default</spring.profiles.active>
             </properties>
         </profile>
     </profiles>
