@@ -76,14 +76,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- H2 con scope test va rimosso vista l'implementazione dei profili-->
         <!-- H2 (usato solo nel profilo test) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
 
-        <!-- JUnit Test con scope test va rimosso vista l'implementazione dei profili-->
         <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,7 +92,6 @@
 
     <build>
         <plugins>
-            <!--  COMPILER con annotation processor -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -120,7 +117,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Spring Boot plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -129,14 +125,11 @@
     </build>
 
     <profiles>
-    <!-- Creazione del Profilo "test" per l'attivazione di dipendenze specifiche durante l'utilizzo di esso -->
         <profile>
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
             </properties>
-                <!-- H2 con scope test-->
-                <!-- JUnit Test con scope test-->
         </profile>
 
         <profile>
